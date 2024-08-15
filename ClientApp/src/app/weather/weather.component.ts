@@ -10,7 +10,10 @@ import { WeatherService } from '../services/weather.service';
   styleUrls: ['./weather.component.scss'],
 })
 export class WeatherComponent implements OnInit {
+  weatherData: WeatherData | null = null;
   icaoCode = new FormControl('');
+  codeTest: string = '';
+  previousSearchedCode: string = '';
   isLoading: boolean = false;
   error: string | null = null;
 
@@ -27,6 +30,9 @@ export class WeatherComponent implements OnInit {
       .subscribe((code) => {
         if (!code) return;
         let formattedCode = code.toUpperCase();
+        if (formattedCode !== this.previousSearchedCode) {
+          this.previousSearchedCode = formattedCode;
+        }
         this.fetchWeather(formattedCode);
         this.weatherService.addToSearchHistory(formattedCode);
       });
@@ -43,7 +49,7 @@ export class WeatherComponent implements OnInit {
     this.error = null;
     this.weatherService.getWeather(icaoCode.toUpperCase()).subscribe({
       next: (data: WeatherData) => {
-        this.weatherService.setWeatherData(data);
+        this.weatherData = data;
         this.icaoCode.setValue(icaoCode);
         this.isLoading = false;
       },

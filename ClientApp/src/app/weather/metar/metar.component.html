@@ -1,17 +1,15 @@
 <div class="pt-4" *ngIf="metarData">
-  <div
-    *ngIf="weatherReport?.isNearbyAirport && weatherReport?.nearbyAirportIcao"
-  >
+  <div *ngIf="isNearbyAirport && nearbyAirportIcao">
     <p class="text-lg">
       No weather data available for
-      <span class="text-indigo-800 font-bold">
+      <span class="text-indigo-800 font-bold uppercase">
         {{ icaoCode }}
       </span>
     </p>
     <div class="my-4">
       <mat-divider></mat-divider>
       <p class="uppercase font-medium py-2 text-center text-neutral-400">
-        Nearest weather below
+        Nearby weather
       </p>
       <mat-divider></mat-divider>
     </div>
@@ -20,9 +18,9 @@
   <div>
     <p
       class="text-lg text-neutral-700 font-bold text-center"
-      *ngIf="weatherReport?.isNearbyAirport && weatherReport?.nearbyAirportIcao"
+      *ngIf="isNearbyAirport && nearbyAirportIcao"
     >
-      Airport {{ weatherReport?.nearbyAirportIcao }}
+      Airport {{ nearbyAirportIcao }}
     </p>
     <p
       class="font-bold"

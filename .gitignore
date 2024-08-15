@@ -231,3 +231,4 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 ClientApp/.angular
+dispatch-app.generated.sln

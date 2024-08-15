@@ -3,7 +3,7 @@
     <app-history (icaoCode)="handleCodeEmit($event)"></app-history>
   </mat-card>
   <mat-card class="md:w-2/3 w-full">
-    <mat-form-field appearance="fill">
+    <mat-form-field class="px-4 pt-4" appearance="fill">
       <mat-label>Input ICAO Code</mat-label>
       <input
         matInput
@@ -12,6 +12,16 @@
         class="uppercase"
         maxlength="4"
       />
+      <button
+        *ngIf="icaoCode.value"
+        class="mr-2"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="icaoCode.setValue('')"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
 
     <div *ngIf="isLoading" class="flex h-56 items-center justify-center mb-6">
@@ -22,22 +32,38 @@
       class="px-4"
       mat-stretch-tabs="false"
       animationDuration="0ms"
-      *ngIf="!isLoading && !error && icaoCode.value?.length === 4"
+      *ngIf="
+        !isLoading && !error && icaoCode.value?.length === 4 && weatherData
+      "
     >
       <mat-tab label="METAR">
-        <app-metar [icaoCode]="icaoCode.value"></app-metar>
+        <app-metar
+          [metarData]="weatherData.report.conditions"
+          [icaoCode]="weatherData.report.conditions.ident"
+          [isNearbyAirport]="weatherData.isNearbyAirport"
+          [nearbyAirportIcao]="weatherData.nearbyAirportIcao"
+        ></app-metar>
       </mat-tab>
       <mat-tab label="TAF">
-        <app-taf></app-taf>
+        <app-taf [tafData]="weatherData.report.forecast"></app-taf>
       </mat-tab>
       <mat-tab label="Full">
-        <app-full [icaoCode]="icaoCode.value"></app-full>
+        <p class="text-neutral-600 font-bold text-xl mt-4">METAR</p>
+        <app-metar
+          [metarData]="weatherData.report.conditions"
+          [icaoCode]="weatherData.report.conditions.ident"
+          [isNearbyAirport]="weatherData.isNearbyAirport"
+          [nearbyAirportIcao]="weatherData.nearbyAirportIcao"
+        ></app-metar>
+        <mat-divider></mat-divider>
+        <p class="text-neutral-600 font-bold text-xl mt-4">TAF</p>
+        <app-taf [tafData]="weatherData.report.forecast"></app-taf>
       </mat-tab>
     </mat-tab-group>
 
     <div
       class="flex justify-center min-h-56 items-center"
-      *ngIf="icaoCode.value?.length !== 4"
+      *ngIf="icaoCode.value?.length !== 4 && !error"
     >
       <p class="text-center font-medium text-neutral-700 text-lg mb-6">
         Input ICAO code to view weather data
@@ -46,7 +72,7 @@
 
     <div *ngIf="error">
       <app-error-message
-        [icaoCode]="icaoCode.value"
+        [icaoCode]="previousSearchedCode"
         [errorMsg]="error"
       ></app-error-message>
     </div>

@@ -7,15 +7,9 @@ import { WeatherService } from 'src/app/services/weather.service';
   templateUrl: './taf.component.html',
   styleUrls: ['./taf.component.scss'],
 })
-export class TafComponent implements OnInit {
-  tafData: Forecast | null = null;
+export class TafComponent {
+  @Input() tafData: Forecast | null = null;
   @Input() isLoading: boolean = false;
 
   constructor(private weatherService: WeatherService) {}
-
-  ngOnInit() {
-    this.weatherService.weatherData$.subscribe((data) => {
-      this.tafData = data?.report.forecast || null;
-    });
-  }
 }

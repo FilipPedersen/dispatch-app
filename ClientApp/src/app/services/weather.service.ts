@@ -7,8 +7,6 @@ import { WeatherData } from '../models/weather.model';
   providedIn: 'root',
 })
 export class WeatherService {
-  private weatherDataSubject = new BehaviorSubject<WeatherData | null>(null);
-  public weatherData$ = this.weatherDataSubject.asObservable();
   private historySubject = new BehaviorSubject<string[]>(
     this.getSearchHistory()
   );
@@ -29,10 +27,6 @@ export class WeatherService {
         headers: headers,
       }
     );
-  }
-
-  setWeatherData(data: WeatherData) {
-    this.weatherDataSubject.next(data);
   }
 
   getSearchHistory(): string[] {

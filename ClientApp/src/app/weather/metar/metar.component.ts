@@ -1,24 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Conditions, Report, WeatherData } from 'src/app/models/weather.model';
-import { WeatherService } from 'src/app/services/weather.service';
+import { Component, Input } from '@angular/core';
+import { Conditions } from 'src/app/models/weather.model';
 
 @Component({
   selector: 'app-metar',
   templateUrl: './metar.component.html',
   styleUrls: ['./metar.component.scss'],
 })
-export class MetarComponent implements OnInit {
-  metarData: Conditions | null = null;
-  weatherReport: WeatherData | null = null;
+export class MetarComponent {
+  @Input() metarData: Conditions | null = null;
+  @Input() isNearbyAirport: boolean = false;
+  @Input() nearbyAirportIcao: string | null = null;
   @Input() isLoading: boolean = false;
   @Input() icaoCode: string | null = null;
 
-  constructor(private weatherService: WeatherService) {}
-
-  ngOnInit() {
-    this.weatherService.weatherData$.subscribe((data) => {
-      this.metarData = data?.report.conditions || null;
-      this.weatherReport = data || null;
-    });
-  }
+  constructor() {}
 }
