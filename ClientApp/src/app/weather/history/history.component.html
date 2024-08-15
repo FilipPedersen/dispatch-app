@@ -1,0 +1,21 @@
+<div class="p-3 w-full">
+  <div class="flex justify-between">
+    <h3>Search History</h3>
+    <button
+      (click)="clearHistory()"
+      class="text-gray-500 hover:text-red-500 transition-colors text-sm"
+    >
+      Clear history
+    </button>
+  </div>
+  <mat-divider></mat-divider>
+  <ul class="flex gap-3 mt-3 flex-wrap" *ngIf="searchHistory.length > 0">
+    <li
+      class="text-blue-800 cursor-pointer hover:text-blue-500 transition-colors"
+      *ngFor="let code of searchHistory"
+      (click)="emitIcaoCode(code)"
+    >
+      {{ code }}
+    </li>
+  </ul>
+</div>

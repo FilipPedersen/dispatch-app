@@ -1,0 +1,74 @@
+<div class="pt-4" *ngIf="tafData">
+  <p class="font-bold text-sm text-green-500">{{ tafData.text }}</p>
+  <p class="text-xl text-neutral-600 font-bold my-2">Forecast</p>
+  <div class="grid lg:grid-cols-3 sm:grid-cols-1 gap-3">
+    <div
+      class="col-span-1 h-auto"
+      *ngFor="let condition of tafData.conditions; let i = index"
+    >
+      <mat-card class="h-full">
+        <p class="bg-gray-50 text-center p-1">
+          Expires:
+          <span>
+            {{ condition.period.dateStart | date : "shortTime" }}
+          </span>
+        </p>
+        <div class="p-2 [&_span]:text-indigo-800">
+          <p
+            class="font-bold"
+            [ngClass]="{
+              'text-green-500': condition.flightRules === 'vfr',
+              'text-gray-500': condition.flightRules !== 'vfr'
+            }"
+          >
+            <span
+              class="h-3 w-3 rounded-full inline-block"
+              [ngClass]="{
+                'bg-green-500': condition.flightRules === 'vfr',
+                'bg-gray-500': condition.flightRules !== 'vfr'
+              }"
+            >
+            </span>
+            {{ condition.flightRules | uppercase }}
+          </p>
+          <div class="flex justify-between">
+            <p>Visibility:</p>
+            <span
+              >{{ condition.visibility.distanceSm }}
+              SM
+            </span>
+          </div>
+          <div *ngIf="condition.wind" class="flex justify-between">
+            <p>Wind:</p>
+            <span *ngIf="condition.wind.speedKts">
+              {{ condition.wind.speedKts | number }}
+              kts
+
+              <span *ngIf="condition.wind.direction">
+                at
+                {{ condition.wind.direction }}°
+              </span>
+            </span>
+          </div>
+          <div
+            *ngIf="condition.cloudLayers.length > 0"
+            class="flex justify-between"
+          >
+            <p>Clouds (AGL):</p>
+            <span class="capitalize"
+              >{{ condition.cloudLayers[0].coverage }}
+              {{ condition.cloudLayers[0].altitudeFt }}</span
+            >
+          </div>
+          <div class="flex justify-between">
+            <p>Expires:</p>
+            <span>
+              {{ condition.period.dateEnd | date : "shortTime" }}
+            </span>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <app-last-updated [dateIssued]="tafData.dateIssued"></app-last-updated>
+</div>

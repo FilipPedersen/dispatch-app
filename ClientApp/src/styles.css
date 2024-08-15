@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-100 w-full h-full;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

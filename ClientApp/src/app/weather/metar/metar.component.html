@@ -1,0 +1,94 @@
+<div class="pt-4" *ngIf="metarData">
+  <div
+    *ngIf="weatherReport?.isNearbyAirport && weatherReport?.nearbyAirportIcao"
+  >
+    <p class="text-lg">
+      No weather data available for
+      <span class="text-indigo-800 font-bold">
+        {{ icaoCode }}
+      </span>
+    </p>
+    <div class="my-4">
+      <mat-divider></mat-divider>
+      <p class="uppercase font-medium py-2 text-center text-neutral-400">
+        Nearest weather below
+      </p>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+
+  <div>
+    <p
+      class="text-lg text-neutral-700 font-bold text-center"
+      *ngIf="weatherReport?.isNearbyAirport && weatherReport?.nearbyAirportIcao"
+    >
+      Airport {{ weatherReport?.nearbyAirportIcao }}
+    </p>
+    <p
+      class="font-bold"
+      [ngClass]="{
+        'text-green-500': metarData.flightRules === 'vfr',
+        'text-gray-500': metarData.flightRules !== 'vfr'
+      }"
+    >
+      <span
+        class="h-3 w-3 rounded-full inline-block"
+        [ngClass]="{
+          'bg-green-500': metarData.flightRules === 'vfr',
+          'bg-gray-500': metarData.flightRules !== 'vfr'
+        }"
+      >
+      </span>
+      {{ metarData.flightRules | uppercase }}
+    </p>
+    <p class="font-bold text-sm text-green-500 mb-2">{{ metarData.text }}</p>
+  </div>
+  <div class="grid grid-cols-2 text-base">
+    <div class="[&_span]:text-indigo-800 [&_span]:font-bold col-span-1">
+      <p>
+        Wind:
+        <span
+          >{{ metarData.wind.speedKts | number }} kts at
+          {{ metarData.wind.direction }}°
+        </span>
+      </p>
+      <p>
+        Visibility:
+        <span
+          >{{ metarData.visibility.distanceSm }}
+          SM
+        </span>
+      </p>
+      <p *ngIf="metarData.cloudLayers.length > 0">
+        Clouds (AGL):
+        <span class="capitalize"
+          >{{ metarData.cloudLayers[0].coverage }}
+          {{ metarData.cloudLayers[0].altitudeFt }}</span
+        >
+      </p>
+      <p>
+        Temperature:
+        <span>{{ metarData.tempC }} °C</span>
+      </p>
+    </div>
+    <div class="col-span-1 [&_span]:text-indigo-800 [&_span]:font-bold">
+      <p>
+        Dewpoint:
+        <span>{{ metarData.dewpointC }} °C</span>
+      </p>
+      <p>
+        Altimeter:
+        <span>{{ metarData.pressureHg }} inHg</span>
+      </p>
+      <p>
+        Humidity:
+        <span>{{ metarData.relativeHumidity }} %</span>
+      </p>
+      <p>
+        Density Altitude:
+        <span>{{ metarData.densityAltitudeFt }} ft </span>
+      </p>
+    </div>
+  </div>
+  <app-last-updated [dateIssued]="metarData.dateIssued"></app-last-updated>
+</div>
