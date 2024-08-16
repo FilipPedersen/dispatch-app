@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Forecast, ForecastCondition } from 'src/app/models/weather.model';
-import { WeatherService } from 'src/app/services/weather.service';
+import { Component, Input } from '@angular/core';
+import { Forecast } from 'src/app/models/weather.model';
 
 @Component({
   selector: 'app-taf',
@@ -11,5 +10,5 @@ export class TafComponent {
   @Input() tafData: Forecast | null = null;
   @Input() isLoading: boolean = false;
 
-  constructor(private weatherService: WeatherService) {}
+  constructor() {}
 }

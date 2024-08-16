@@ -49,6 +49,7 @@ import { LastUpdatedComponent } from './shared/components/last-updated/last-upda
         children: [
           { path: 'metar', component: MetarComponent },
           { path: 'taf', component: TafComponent },
+          { path: 'full', component: WeatherComponent },
         ],
       },
     ]),
