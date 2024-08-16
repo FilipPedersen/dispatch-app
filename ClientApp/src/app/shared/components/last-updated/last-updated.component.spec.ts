@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LastUpdatedComponent } from './last-updated.component';
+import { DateAgoPipe } from '../../pipes/date-ago.pipe';
 
 describe('LastUpdatedComponent', () => {
   let component: LastUpdatedComponent;
@@ -8,9 +9,8 @@ describe('LastUpdatedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LastUpdatedComponent ]
-    })
-    .compileComponents();
+      declarations: [LastUpdatedComponent, DateAgoPipe],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LastUpdatedComponent);
     component = fixture.componentInstance;

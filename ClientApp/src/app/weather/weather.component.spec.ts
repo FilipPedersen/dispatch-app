@@ -10,14 +10,13 @@ describe('WeatherComponent', () => {
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   beforeEach(async () => {
-    httpClientSpy = jasmine.createSpyObj<HttpClient>(["get"]);
+    httpClientSpy = jasmine.createSpyObj<HttpClient>(['get']);
     httpClientSpy.get.and.returnValue(of(null));
-    
+
     await TestBed.configureTestingModule({
-      declarations: [ WeatherComponent ],
-      providers: [{ provide: HttpClient, useValue: httpClientSpy }]
-    })
-    .compileComponents();
+      declarations: [WeatherComponent],
+      providers: [{ provide: HttpClient, useValue: httpClientSpy }],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -32,13 +31,25 @@ describe('WeatherComponent', () => {
 
   it('should load weather for KCPR', () => {
     // Arrange
-    const response = { report: { conditions: { ident: "kcpr", tempC: 42 } } };
+    const response = { report: { conditions: { ident: 'kcpr', tempC: 42 } } };
     httpClientSpy.get.and.returnValue(of(response));
 
-    // Act
-    fixture.detectChanges(); // the initial fixture.detectChanges() initializes the component and calls ngOnInit()
+    const expectedUrl = 'https://localhost:7274/api/backend/report/KCPR';
 
-    // Assert
-    expect(httpClientSpy.get).toHaveBeenCalledWith("/weather/report/KCPR", jasmine.objectContaining({ headers: jasmine.any(HttpHeaders) }));
+    component.fetchWeather('KCPR');
+
+    expect(httpClientSpy.get).toHaveBeenCalledWith(expectedUrl);
+  });
+
+  it('should only fetch weather for valid ICAO code', () => {
+    const spy = spyOn(component, 'fetchWeather');
+
+    component.icaoCode.setValue('KCP');
+    fixture.detectChanges();
+    expect(spy).not.toHaveBeenCalled();
+
+    component.icaoCode.setValue('KCPR');
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledWith('KCPR');
   });
 });

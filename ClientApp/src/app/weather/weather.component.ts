@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
+import { distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { WeatherData } from 'src/app/models/weather.model';
 import { WeatherService } from '../services/weather.service';
 

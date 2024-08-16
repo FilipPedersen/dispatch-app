@@ -15,17 +15,14 @@ export class WeatherService {
   constructor(private http: HttpClient) {}
 
   getWeather(icaoCode: string): Observable<WeatherData> {
-    const headers = new HttpHeaders().set('x-foreflight-odense', 'true');
+    // const headers = new HttpHeaders().set('x-foreflight-odense', 'true');
 
     // return this.http.get<WeatherData>(`/weather/report/${icaoCode}`, {
     //   headers: headers,
     // });
 
     return this.http.get<WeatherData>(
-      `https://localhost:7274/api/backend/report/${icaoCode}`,
-      {
-        headers: headers,
-      }
+      `https://localhost:7274/api/backend/report/${icaoCode}`
     );
   }
 
